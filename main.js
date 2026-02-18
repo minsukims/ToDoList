@@ -11,40 +11,73 @@
 
 const taskInput = document.querySelector("#task-input");
 const addButton = document.querySelector("#add-button");
+const tabs = document.querySelectorAll(".task-tabs div");
+const underline = document.querySelector("#under-line");
 
 let taskList = [];
+let mode = "all";
 addButton.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
+});
+
+for (let i = 1; i < tabs.length; i++) {
+  tabs[i].addEventListener("click", function (event) {
+    filter(event);
+  });
+}
 
 function addTask() {
+  if (taskInput.value.trim() === "") return;
+
   let task = {
     id: randomId(),
     taskContent: taskInput.value,
     isComplete: false,
   };
   taskList.push(task);
-  console.log(task);
+  taskInput.value = "";
   render();
 }
 
 function render() {
   let resultHTML = "";
-  for (let i = 0; i < taskList.length; i++) {
-    if (taskList[i].isComplete === true) {
+  let list = [];
+  // 상태는 taskList의 데이터를 유지함.
+  if (mode === "all") {
+    list = taskList;
+  } else if (mode === "ongoing") {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete === false) {
+        list.push(taskList[i]);
+      }
+    }
+  } else if (mode === "done") {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete === true) {
+        list.push(taskList[i]);
+      }
+    }
+  }
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].isComplete === true) {
       resultHTML += `
-    <div class="task ${taskList[i].isComplete ? "completed" : ""}">
-            <div class="task-done task-done-center">${taskList[i].taskContent}</div>
+    <div class="task ${list[i].isComplete ? "completed" : ""}">
+            <div class="task-done task-done-center">${list[i].taskContent}</div>
             <div>
-              <button class="complete-btn ${taskList[i].isComplete ? "active" : ""}" onclick="toggleComplete('${taskList[i].id}')"><i class="fa-solid fa-calendar-check"></i></button>
-              <button onclick="deleteTask('${taskList[i].id}')"><i class="fa-solid fa-trash"></i></button>
+              <button class="complete-btn ${list[i].isComplete ? "active" : ""}" onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-calendar-check"></i></button>
+              <button onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
             </div>
           </div>`;
     } else {
       resultHTML += `
-    <div class="task ${taskList[i].isComplete ? "completed" : ""}">
-            <div>${taskList[i].taskContent}</div>
+    <div class="task ${list[i].isComplete ? "completed" : ""}">
+            <div>${list[i].taskContent}</div>
             <div>
-              <button class="complete-btn ${taskList[i].isComplete ? "active" : ""}" onclick="toggleComplete('${taskList[i].id}')"><i class="fa-solid fa-calendar-check"></i></button>
-              <button onclick="deleteTask('${taskList[i].id}')"><i class="fa-solid fa-trash"></i></button>
+              <button class="complete-btn ${list[i].isComplete ? "active" : ""}" onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-calendar-check"></i></button>
+              <button onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
             </div>
           </div>`;
     }
@@ -71,7 +104,13 @@ function deleteTask(id) {
   }
   render();
 }
+function filter(event) {
+  mode = event.target.id;
 
+  underline.style.left = event.target.offsetLeft + "px";
+  underline.style.width = event.target.offsetWidth + "px";
+  render();
+}
 function randomId() {
   return Math.random().toString(36).substr(2, 16);
 }
