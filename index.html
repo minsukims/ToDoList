@@ -19,20 +19,20 @@
   </head>
   <body>
     <div class="container">
-      <h1>Todo List</h1>
-      <section class="input-area">
-        <input type="text" id="task-input" />
-        <button id="add-button">+</button>
-        <div id="ongoing-count"></div>
-        <div id="done-count"></div>
-      </section>
+      <header id="header">
+        <h1 class="head">Todo List</h1>
+        <section class="input-area">
+          <input type="text" id="task-input" class="task-input" />
+          <button id="add-button" class="add-button">할일 추가</button>
+        </section>
+      </header>
 
       <section class="task-area">
         <div class="task-tabs">
           <div id="under-line"></div>
-          <div id="all">모두</div>
+          <div id="all">할일</div>
           <div id="ongoing">진행중</div>
-          <div id="done">끝남</div>
+          <div id="done">완료</div>
         </div>
         <div id="task-board"></div>
       </section>

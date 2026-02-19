@@ -8,16 +8,83 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100vh;
 }
 .container {
-  background-color: #fff;
+  background-color: #fffdf7;
+  background-blend-mode: multiply;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 28px,
+    #d7e3fc 29px
+  );
+
   min-height: 100vh;
+  margin-top: 2em;
   box-shadow:
     rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px,
     rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px,
     rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+  position: relative;
+  padding-left: 3em;
+  overflow: hidden;
+  box-shadow:
+    inset -12px 0 0 0 rgba(255, 154, 162, 0.6),
+    inset -18px 0 10px -5px rgba(0, 0, 0, 0.25);
+}
+.container::after {
+  content: "";
+  position: absolute;
+  left: 70px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+}
+.container::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50px;
+  height: 100vh;
+
+  background: radial-gradient(circle at 25px 15px, #bbb 4px, transparent 5px)
+    repeat-y;
+
+  background-size: 50px 30px;
+  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.2);
+}
+#header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.head {
+  font-weight: bold;
+}
+.task-input {
+  border-radius: 20px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+.add-button {
+  all: unset;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  color: #bfa7d6;
+}
+.add-button:hover {
+  color: #825ba7;
+}
+.task {
+  border-bottom: 2px dotted lightgray;
 }
 .task-area {
   border: 1px solid lightgray;
@@ -26,6 +93,7 @@ body {
   display: flex;
   border-bottom: 1px solid lightgray;
   position: relative;
+  font-weight: bold;
 }
 .task-tabs div {
   padding: 1em;
@@ -46,10 +114,13 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 1em;
+  font-weight: bold;
 }
 
 .task-done {
   text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
   flex: 1;
   background-color: #f1e7f5;
   border-radius: 20px;
@@ -58,13 +129,13 @@ body {
   text-align: center;
 }
 .task > div:first-child {
-  font-size: 1.5em;
+  font-size: 1em;
   padding: 0.5em;
   box-sizing: border-box;
 }
 .task > div:last-child {
   flex-shrink: 0;
-  font-size: 1.5em;
+  font-size: 1em;
   padding: 0.5em;
 }
 
@@ -76,4 +147,30 @@ body {
 }
 .task.completed {
   background-color: #e8f5e9;
+}
+
+@media (max-width: 380px) {
+  .container {
+    max-width: 360px;
+    min-height: 500px;
+    overflow: hidden;
+  }
+  .input-area {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .task-tabs {
+    display: flex;
+    justify-content: center;
+  }
+  .task-tabs div {
+    white-space: nowrap;
+  }
+  .task-tabs div:hover {
+    background-color: #e0f6e9;
+  }
+  #under-line {
+    display: none;
+  }
 }

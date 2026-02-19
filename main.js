@@ -30,7 +30,10 @@ for (let i = 1; i < tabs.length; i++) {
 }
 
 function addTask() {
-  if (taskInput.value.trim() === "") return;
+  if (taskInput.value.trim() === "") {
+    alert("할일을 구체적으로 제시해주세요");
+    return;
+  }
 
   let task = {
     id: randomId(),
